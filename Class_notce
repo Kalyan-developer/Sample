@@ -1,0 +1,72 @@
+#Sample print statement
+	
+	print('jupyter notebook')
+
+
+#Converting TSV file to CSV file using python Pandas
+			Using  Expressions:
+			
+			import re
+			tsv = open('tsv.tsv', 'r')
+			fileContent =  tsv.read()
+			fileContent = re.sub("\t", ",", fileContent) # convert from tab to comma
+			csv_file = open("csv.csv", "w")
+			csv_file.write(fileContent)
+			csv_file.close()
+			
+			Using  Pandas
+			
+			import pandas as pd 
+			tsv_file='DRC_full.tsv'
+			csv_table=pd.read_table(tsv_file,sep='\t')
+			csv_table.to_csv('DRC_full_CSV.csv',index=False)
+			
+
+
+#XML parsing
+
+		<?xml version="1.0" encoding="UTF-8"?>
+		<root>
+			<bathrooms>
+				<n35237 type="number">1.0</n35237>
+				<n32238 type="number">3.0</n32238>
+				<n44699 type="number">nan</n44699>
+			</bathrooms>
+			<price>
+				<n35237 type="number">7020000.0</n35237>
+				<n32238 type="number">10000000.0</n32238>
+				<n44699 type="number">4128000.0</n44699>
+			</price>
+			<property_id>
+				<n35237 type="number">35237.0</n35237>
+				<n32238 type="number">32238.0</n32238>
+				<n44699 type="number">44699.0</n44699>
+			</property_id>
+		</root>
+		
+		import xml.etree.ElementTree as ET
+		import pandas as pd
+		
+		xml_data = open('properties.xml', 'r').read()  # Read file
+		root = ET.XML(xml_data)  # Parse XML
+		
+		data = []
+		cols = []
+		for i, child in enumerate(root):
+			data.append([subchild.text for subchild in child])
+			cols.append(child.tag)
+		
+		df = pd.DataFrame(data)  # Write in DF and transpose it
+		
+		#df.rename(columns={"OldName":"NewName"}) # syntax for column changing at run time.
+		
+		df.columns = cols  # Update column names
+		df= df.rename(columns={"bathrooms":"Office"})
+		print(df)
+		
+
+		
+
+			
+			
+			
